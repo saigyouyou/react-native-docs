@@ -1,0 +1,7 @@
+在iOS中使用display:none会导致页面崩溃
+在安卓上没有这个问题
+
+解决方案:将 
+  style={{display:(this.state.xxx)? 'flex':'none'}}
+改为
+  style={(this.state.xxx)? {display:'flex'} : {width:0, height:0, overflow: 'hidden'}}
