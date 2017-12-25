@@ -1,0 +1,70 @@
+OS：iOS
+
+为了实现分享的界面，Android版在编写时使用了两层modal嵌套的模式，点击分享按钮后，背景为0.25透明度的黑色遮罩，fadeIn，分享菜单以slide的形式进入界面
+该方法在Android上表现良好，但是在iOS上外层Modal始终无法消失，甚至重载js都无法消失。
+
+之后为了测试问题出处讲两个modal拆成并列的模式以两个absolute的方式放到界面上，发现自始自终都只能实现一个modal层的效果，另一个无法显示。因此猜测是iOS上无法两个modal共存。
+
+解决方案：将外层Modal改成View，放弃fade的效果。
+
+原代码
+
+      <Modal  
+        animationType='fade'//进场动画 fade  
+        onRequestClose={() => {this.setState({showShare:false,})}}  
+        visible={this.state.showShare}
+        transparent={true}  
+      > 
+        <TouchableOpacity activeOpacity={1} style={{flex:1}} onPress={() => {this.setState({showShare:false})}}>
+          <View style={styles.shareBox}>
+            <Modal  
+              animationType='slide'//进场动画 slide
+              onRequestClose={() => {
+                this.setState({
+                  showShare:false,
+                })
+              }}  
+              visible={this.state.showShare}  
+              transparent={true}
+            >
+              <TouchableOpacity activeOpacity={1} style={{flex:1}} onPress={() => {this.setState({showShare:false})}}>
+                <View style={styles.shareMenu}>
+                  ...
+                </View>
+              </TouchableOpacity>
+            </Modal>
+          </View>
+        </TouchableOpacity>  
+      </Modal>
+      
+      
+      const styles={
+        ...
+        shareBox:{  
+          flex:1,  
+          backgroundColor: 'rgba(0, 0, 0, 0.25)',  
+          position: 'absolute',  
+          top: 0,  
+          bottom: 0,  
+          left: 0,  
+          right: 0,  
+          justifyContent:'center',  
+          alignItems:'center',
+          elevation: 4,
+        }, 
+        shareMenu: {
+          height: 100,
+          flex:5,
+          backgroundColor:'#fff',
+          width: width,
+          position: 'absolute',
+          elevation:5,
+          bottom: 0,  
+          left: 0,  
+          right: 0,
+        },
+        ...
+      }
+      
+      
+      
