@@ -5,6 +5,7 @@ react-native-swiper: 1.5.13
 
 当使用react-native-navigation的tab navigator做导航时，使用react-native-swiper做轮播图，会发现切至其他tab一段时间后切回来，swiper会变成白屏。
 
-料想是当轮播图在屏幕外时没有渲染，切回来后保持了未渲染的状态。因此在react-native-swiper目录下/src/index.js中，将defaultProps中的removeClippedSubviews设为false，可解决这个问题。
+料想是当轮播图在屏幕外时没有渲染，切回来后保持了未渲染的状态。因此在react-native-swiper目录下/src/index.js中，
+将defaultProps中的removeClippedSubviews设为false，可解决这个问题。
 
 该问题只在iOS下存在，Android表现良好
