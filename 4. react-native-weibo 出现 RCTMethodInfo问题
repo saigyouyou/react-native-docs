@@ -1,0 +1,8 @@
+os: iOS
+react-natvie: 0.48.3
+
+使用react-native-weibo插件来做分享和登陆的时候，run-ios出现了Redefinition if 'RCTMethodInfo' 的问题
+该问题只在ios下出现，并且似乎只出现在相对比较新的rn中。
+
+解决办法： 在react-native-weibo/ios中搜索 #import <React/RCTBridgeModule.h>，改为 #import <React/RCTBridgeModule.h>
+
